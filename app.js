@@ -1,11 +1,26 @@
 const express = require('express')
 const app = express()
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
+
 
 const bookController = require('./controllers/bookController')
 const authorController = require('./controllers/authorController')
 const genresController = require('./controllers/genresController')
 
+const logger = require('./logs/logger')
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
+app.use(logger())
+
+
+// app.get('/testError', (req, res) => {
+//     res.sendStatus(500)
+// })
+// app.get('/testWarn', (req, res) => {
+//     res.sendStatus(400)
+// })
 
 
 app.route('/books').get(bookController.getAllBooks)

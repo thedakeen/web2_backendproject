@@ -1,5 +1,6 @@
 const Book = require('../models/bookModel')
 
+
 function validateBook(book) {
     const {Name, Author, PublishYear, PagesCount, Price} = book
 
