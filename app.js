@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
-const { log } = require('./logs/logger')
+const logger = require('./logs/logger')
 
 
 const bookController = require('./controllers/bookController')
@@ -12,18 +12,8 @@ const genresController = require('./controllers/genresController')
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(logger())
 
-app.use((req, res, next) => {
-    const {method, originalUrl, ip} = req
-    const route = `${method} ${originalUrl}`
-
-    // Log request information for all levels
-    log('info', route, ip)
-    log('warn', route, ip)
-    log('error', route, ip)
-
-    next()
-})
 // app.get('/testError', (req, res) => {
 //     res.sendStatus(500)
 // })
