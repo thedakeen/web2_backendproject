@@ -16,7 +16,7 @@ const logger = () => {
                 const logMessage = `${level}\t ${method} || URL: ${url}, IP: ${ip}` // Adjust this format as desired
 
                 // Log to Redis
-                redisClient.lPush('logs', logMessage.trim()) // Assuming 'logs' is your Redis list key
+                redisClient.rPush('logs', logMessage.trim()) // Assuming 'logs' is your Redis list key
 
                 return logMessage
             })
