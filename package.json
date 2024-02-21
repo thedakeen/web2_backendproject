@@ -1,14 +1,20 @@
 {
   "dependencies": {
+    "axios": "^1.6.7",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "express-winston": "^4.2.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "redis": "^4.6.13",
     "swagger-ui-express": "^5.0.0",
     "twilio": "^4.21.0",
     "winston": "^3.11.0",
+    "winston-redis": "^3.1.0",
     "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
   },
   "devDependencies": {
     "eslint": "^8.56.0",

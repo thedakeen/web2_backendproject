@@ -1,33 +1,70 @@
-const expressWinston = require('express-winston')
-const winston = require('winston')
+const client = require('../config/redisClient')
 
-const logger = () => {
-    return expressWinston.logger({
-        transports: [
-            new winston.transports.Console()
-        ],
-        format: winston.format.combine(
-            winston.format.printf((info) => {
-                const level = info.level.toUpperCase()
-                const method = info.meta.req.method
-                const url = info.meta.req.url
-                const ip = info.meta.ip.startsWith('::ffff:') ? info.meta.ip.substring(7) : info.meta.ip // Normalize IPv4-mapped IPv6 addresses
-                return `${level}\t ${method} || URL: ${url}, IP: ${ip}` // Adjust this format as desired
-            })
-        ),
-        statusLevels: true,
-        expressFormat: false,
-        colorize: true,
-        dynamicMeta: (req, res) => {
-            return {
-                ip: req.ip,
-                req: {
-                    method: req.method,
-                    url: req.originalUrl,
-                },
-            }
+function log(level, route, ip) {
+    const timestamp = new Date().toISOString()
+    const logMessage = `[${timestamp}] [${level.toUpperCase()}] Route: ${route} IP: ${ip}`
+
+    client.lPush('logs', logMessage, (err, reply) => {
+        if (err) {
+            console.error('Error pushing log to Redis:', err)
+        } else {
+            console.log('Log pushed to Redis:', reply)
         }
     })
 }
 
-module.exports = logger
+module.exports = { log }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const expressWinston = require('express-winston')
+// const winston = require('winston')
+//
+// const logger = () => {
+//     return expressWinston.logger({
+//         transports: [
+//             new winston.transports.Console()
+//         ],
+//         format: winston.format.combine(
+//             winston.format.printf((info) => {
+//                 const level = info.level.toUpperCase()
+//                 const method = info.meta.req.method
+//                 const url = info.meta.req.url
+//                 const ip = info.meta.ip.startsWith('::ffff:') ? info.meta.ip.substring(7) : info.meta.ip // Normalize IPv4-mapped IPv6 addresses
+//                 return `${level}\t ${method} || URL: ${url}, IP: ${ip}` // Adjust this format as desired
+//             })
+//         ),
+//         statusLevels: true,
+//         expressFormat: false,
+//         colorize: true,
+//         dynamicMeta: (req, res) => {
+//             return {
+//                 ip: req.ip,
+//                 req: {
+//                     method: req.method,
+//                     url: req.originalUrl,
+//                 },
+//             }
+//         }
+//     })
+// }
+//
+// module.exports = logger
