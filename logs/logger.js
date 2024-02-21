@@ -1,10 +1,11 @@
 const expressWinston = require('express-winston')
 const winston = require('winston')
+const redisClient = require('../config/redisClient') // Assuming the path to your Redis client file
 
 const logger = () => {
     return expressWinston.logger({
         transports: [
-            new winston.transports.Console()
+            new winston.transports.Console(),
         ],
         format: winston.format.combine(
             winston.format.printf((info) => {
@@ -12,7 +13,12 @@ const logger = () => {
                 const method = info.meta.req.method
                 const url = info.meta.req.url
                 const ip = info.meta.ip.startsWith('::ffff:') ? info.meta.ip.substring(7) : info.meta.ip // Normalize IPv4-mapped IPv6 addresses
-                return `${level}\t ${method} || URL: ${url}, IP: ${ip}` // Adjust this format as desired
+                const logMessage = `${level}\t ${method} || URL: ${url}, IP: ${ip}` // Adjust this format as desired
+
+                // Log to Redis
+                redisClient.rPush('logs', logMessage.trim()) // Assuming 'logs' is your Redis list key
+
+                return logMessage
             })
         ),
         statusLevels: true,
@@ -26,7 +32,7 @@ const logger = () => {
                     url: req.originalUrl,
                 },
             }
-        }
+        },
     })
 }
 
