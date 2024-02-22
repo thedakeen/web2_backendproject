@@ -23,7 +23,11 @@ const bookController = {
     getAllBooks: function (req, res) {
         Book.getAllBooks(function (err, books) {
             if (err) {
+<<<<<<< HEAD
                 res.status(500).json({message: err})
+=======
+                res.status(500).json({message: 'Error'})
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
             } else {
                 res.status(200).json({data: books})
             }

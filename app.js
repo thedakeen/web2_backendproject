@@ -10,8 +10,13 @@ const genresController = require('./controllers/genresController')
 
 
 
+<<<<<<< HEAD
  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
  app.use(logger())
+=======
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(logger())
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
 
 app.get('/testError', (req, res) => {
     res.sendStatus(500)

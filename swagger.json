@@ -13,6 +13,7 @@
   "basePath": "/",
   "tags": [
     {
+<<<<<<< HEAD
       "name": "Books",
       "description": "API for managing books"
     },
@@ -23,12 +24,17 @@
     {
       "name": "Genres",
       "description": "API for managing genres"
+=======
+      "name": "Users",
+      "description": "API for users in the system"
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
     }
   ],
   "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+<<<<<<< HEAD
     "/testError": {
       "get": {
         "tags": ["Test"],
@@ -55,19 +61,30 @@
       "get": {
         "tags": ["Books"],
         "summary": "Get all books",
+=======
+    "/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all users in system",
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
+<<<<<<< HEAD
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Book"
               }
+=======
+              "$ref": "#/definitions/Users"
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
             }
           }
         }
       }
     },
+<<<<<<< HEAD
     "/booksPages": {
       "get": {
         "tags": ["Books"],
@@ -315,12 +332,43 @@
           },
           "404": {
             "description": "Book not found"
+=======
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json/ejs"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "409": {
+            "description": "Database error"
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
           }
         }
       }
     }
   },
   "definitions": {
+<<<<<<< HEAD
     "Book": {
       "type": "object",
       "properties": {
@@ -362,10 +410,28 @@
       "type": "object",
       "properties": {
         "name": {
+=======
+    "User": {
+      "required": ["email"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string",
+          "default": ""
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
           "type": "string"
         }
       }
     },
+<<<<<<< HEAD
     "Authors": {
       "type": "array",
       "items": {
@@ -385,6 +451,11 @@
       "items": {
         "$ref": "#/definitions/Genre"
       }
+=======
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+>>>>>>> 4b8d375ea771e2245889bdd725db176e35c4d2e0
     }
   }
 }
