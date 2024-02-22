@@ -1,0 +1,390 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My User Project CRUD",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "AITU",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Books",
+      "description": "API for managing books"
+    },
+    {
+      "name": "Authors",
+      "description": "API for managing authors"
+    },
+    {
+      "name": "Genres",
+      "description": "API for managing genres"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/testError": {
+      "get": {
+        "tags": ["Test"],
+        "summary": "Test error",
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/testWarn": {
+      "get": {
+        "tags": ["Test"],
+        "summary": "Test warning",
+        "responses": {
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/books": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get all books",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booksPages": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get books by pages",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/byName/{name}": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get book by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the book",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      }
+    },
+    "/books/byPrice/{price}": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get books by price",
+        "parameters": [
+          {
+            "name": "price",
+            "in": "path",
+            "description": "Price of the book",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          },
+          "404": {
+            "description": "No books found with specified price"
+          }
+        }
+      }
+    },
+    "/books/add": {
+      "post": {
+        "tags": ["Books"],
+        "summary": "Add new book",
+        "parameters": [
+          {
+            "name": "book",
+            "in": "body",
+            "description": "Book object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book added successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/authors": {
+      "get": {
+        "tags": ["Authors"],
+        "summary": "Get all authors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authors/{id}/books": {
+      "get": {
+        "tags": ["Authors"],
+        "summary": "Get books by author ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the author",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          },
+          "404": {
+            "description": "No books found for specified author"
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "tags": ["Genres"],
+        "summary": "Get all genres",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Genre"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/genres/{id}/books": {
+      "get": {
+        "tags": ["Genres"],
+        "summary": "Get books by genre ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the genre",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          },
+          "404": {
+            "description": "No books found for specified genre"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "put": {
+        "tags": ["Books"],
+        "summary": "Update book by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the book",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "book",
+            "in": "body",
+            "description": "Updated book object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Books"],
+        "summary": "Delete book by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the book",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book deleted successfully"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "book": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "Author": {
+              "type": "string"
+            },
+            "Genres": {
+              "type": "string",
+              "items": {
+                "type": "string"
+              }
+            },
+            "PagesCount": {
+              "type": "integer"
+            },
+            "Price": {
+              "type": "number"
+            },
+            "PublishYear": {
+              "type": "integer"
+            }
+              }
+            }
+          }
+        },
+    "Books": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Book"
+      }
+    },
+    "Author": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Authors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Author"
+      }
+    },
+    "Genre": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Genres": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Genre"
+      }
+    }
+  }
+}
