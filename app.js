@@ -9,16 +9,16 @@ const authorController = require('./controllers/authorController')
 const genresController = require('./controllers/genresController')
 
 
-
+app.use(express.json())
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(logger())
 
-app.get('/testError', (req, res) => {
-    res.sendStatus(500)
-})
-app.get('/testWarn', (req, res) => {
-    res.sendStatus(400)
-})
+// app.get('/testError', (req, res) => {
+//     res.sendStatus(500)
+// })
+// app.get('/testWarn', (req, res) => {
+//     res.sendStatus(400)
+// })
 
 app.route('/books').get(bookController.getAllBooks)
 app.route('/booksPages').get(bookController.getBooksByPages)
