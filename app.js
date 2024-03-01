@@ -3,17 +3,68 @@ const app = express()
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
 
+const mongoose = require('mongoose')
+const router = require('./Routes/router')
+const session = require('express-session')
 
-const bookController = require('./controllers/bookController')
-const authorController = require('./controllers/authorController')
-const genresController = require('./controllers/genresController')
+
+const cookieParser = require('cookie-parser')
+
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 const logger = require('./logs/logger')
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
+app.use(cookieParser())
 app.use(logger())
 
+
+app.use(
+    session({
+        secret: 'wwwwww',
+        saveUninitialized: false, //на фолз поменяй
+        resave: true,
+        cookie: {
+            secure: false,
+            maxAge: 3600000,
+        },
+    })
+)
+
+app.use(express.static(__dirname + '/view/static'))
+
+app.set('views', './view/html')
+app.set('view engine', 'ejs')
+
+app.use((req, res, next) => {
+    next()
+})
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString()
+    next()
+})
+
+app.use(router)
+
+async function start() {
+    try {
+        await mongoose.connect(
+            'mongodb+srv://ansaramanzholov2005:323431@cluster1.wdbaku4.mongodb.net/?retryWrites=true&w=majority'
+        )
+
+        app.listen(3000, () => {
+            console.log('App running on port 3000...')
+        })
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+start()
 
 // app.get('/testError', (req, res) => {
 //     res.sendStatus(500)
@@ -22,27 +73,5 @@ app.use(logger())
 //     res.sendStatus(400)
 // })
 
+///////////////////////////////////////////////////////
 
-app.route('/books').get(bookController.getAllBooks)
-app.route('/booksPages').get(bookController.getBooksByPages)
-app.route('/books/byName/:name').get(bookController.getBookByName)
-app.route('/books/byPrice/:price').get(bookController.getBookByPrice)
-app.route('/books/add').post(bookController.addBook)
-
-
-app.route('/authors').get(bookController.getAllAuthors)
-app.route('/authors/:id/books').get(authorController.getBooksByAuthorID)
-
-
-app.route('/genres').get(bookController.getAllGenres)
-app.route('/genres/:id/books').get(genresController.getBooksByGenresID)
-
-
-app
-    .route('/books/:id')
-    .put(bookController.updateBook)
-    .delete(bookController.deleteBook)
-
-app.listen(3000, () => {
-    console.log('Server')
-})

@@ -1,0 +1,12 @@
+<%- include("base_layout.ejs") %>
+
+<main>
+    <form action="/user/recovery" method="post">
+        <label for="phone">Phone number:</label>
+        <input type="text" id="phone" name="phone" required>
+        <button type="submit">Send OTP</button>
+    </form>
+
+</main>
+
+<%- include("footer_partial.ejs") %>

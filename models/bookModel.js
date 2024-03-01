@@ -134,7 +134,7 @@ function insertBook(newBook, authorId, callback) {
 
 function sendWhatsAppNotification(newBook) {
     return new Promise((resolve, reject) => {
-        const client = twilio('AC6f8556eafc6177e6571671e83c66c7f0', '5602432721bc47fbd98bfefe576ff9ec')
+        const client = twilio('AC07c924865f15adf1daec6017c31eebb1', 'a51055c81265c70e21126a0f8729fcac')
 
         client.messages
             .create({

@@ -1,0 +1,33 @@
+<%- include("base_layout.ejs") %>
+<main>
+    <form action='/user/login' method='POST' novalidate>
+        <% if (typeof error !== 'undefined' && error !== null)  { %>
+            <div class='error'><%= error %></div>
+        <% } %>
+        <div>
+            <label>Phone Number:</label>
+            <% if (typeof phoneError !== 'undefined') { %>
+                <div class='error'><%= phoneError.msg %></div>
+            <% } %>
+            <input type='tel' name='phone'>
+        </div>
+        <div>
+            <label>Password:</label>
+            <% if (typeof passwordError !== 'undefined') { %>
+                <div class='error'><%= passwordError.msg %></div>
+            <% } %>
+            <input type='password' name='password'>
+        </div>
+        <div>
+            <input type='submit' value='Login'>
+        </div>
+    </form>
+
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+    <div id="status">
+    </div>
+    <hr/>
+    <a href="/user/recovery">Forgot password?</a>
+</main>
+<%- include("footer_partial.ejs") %>

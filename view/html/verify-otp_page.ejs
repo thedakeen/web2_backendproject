@@ -1,0 +1,12 @@
+<%- include("base_layout.ejs") %>
+
+<main>
+    <form action="/user/verify-otp" method="post">
+        <input type="hidden" name="phone" value="<%= phone %>">
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="submit">Confirm</button>
+    </form>
+</main>
+
+<%- include("footer_partial.ejs") %>

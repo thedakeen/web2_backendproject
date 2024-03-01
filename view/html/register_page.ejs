@@ -1,0 +1,30 @@
+<%- include("base_layout.ejs") %>
+<main>
+    <form action='/user/register' method='POST' novalidate>
+        <div>
+            <label>Name:</label>
+            <% if (typeof nameError !== 'undefined') { %>
+                <div class='error'><%= nameError.msg %></div>
+            <% } %>
+            <input type='text' name='name'>
+        </div>
+        <div>
+            <label>Phone Number:</label>
+            <% if (typeof phoneError !== 'undefined') { %>
+                <div class='error'><%= phoneError.msg %></div>
+            <% } %>
+            <input type='tel' name='phone'>
+        </div>
+        <div>
+            <label>Password:</label>
+            <% if (typeof passwordError !== 'undefined') { %>
+                <div class='error'><%= passwordError.msg %></div>
+            <% } %>
+            <input type='password' name='password'>
+        </div>
+        <div>
+            <input type='submit' value='Signup'>
+        </div>
+    </form>
+</main>
+<%- include("footer_partial.ejs") %>
